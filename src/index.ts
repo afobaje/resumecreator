@@ -10,6 +10,13 @@ const { urlencoded } = express;
 app.use(cors())
 app.use(express.json())
 app.use(urlencoded({ extended: false }))
-connectDb();
 app.use('/api', router)
-app.listen(port, () => console.log(`port running on ${port}`))
+// connectDb();
+// app.listen(port, () => console.log(`port running on ${port}`))
+
+
+connectDb().then(() => {
+    app.listen(port, () => {
+        console.log(`port running on ${port}`);
+    })
+})
