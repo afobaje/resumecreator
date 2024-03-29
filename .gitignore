@@ -1,0 +1,13 @@
+.env*.local 
+
+node_modules/
+
+.env
+
+
+
+./node_modules
+
+sessionToken.json
+userFiles.json
+userProfile.json
