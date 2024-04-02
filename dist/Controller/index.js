@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserProfile = exports.registerUsername = exports.updateUserVolunteerExperience = exports.updateUserAward = exports.updateUserWorkExperience = exports.updateUserEducation = exports.updateUserProjects = exports.createUser = exports.getAllUsers = exports.getUserWithUsername = exports.createPdf = void 0;
+exports.updateUserProfile = exports.checkIfUserExists = exports.registerUsername = exports.updateUserVolunteerExperience = exports.updateUserAward = exports.updateUserWorkExperience = exports.updateUserEducation = exports.updateUserProjects = exports.createUser = exports.getAllUsers = exports.getUserWithUsername = exports.createPdf = void 0;
 const pdfkit_1 = __importDefault(require("pdfkit"));
 const fs_1 = __importDefault(require("fs"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
@@ -161,12 +161,21 @@ function registerUsername(req, res) {
             throw new Error('couldnt register username');
         }
         const { body: { username } } = req;
-        console.log(username, 'friendxone');
         const updateUserWithUsername = yield UserModel_1.default.findOneAndUpdate({ id }, { $set: { 'user.username': username } });
         res.send(updateUserWithUsername);
     });
 }
 exports.registerUsername = registerUsername;
+function checkIfUserExists(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const email = req.params.email;
+        const findMail = yield UserModel_1.default.findOne({ 'user.email': email });
+        if (findMail) {
+            res.send({ message: 'user exists' });
+        }
+    });
+}
+exports.checkIfUserExists = checkIfUserExists;
 function updateUserProfile(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.id;

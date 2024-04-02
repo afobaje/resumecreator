@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Controller_1 = require("../Controller");
 const router = (0, express_1.Router)();
+router.get('/userexists/:email', Controller_1.checkIfUserExists);
 router.get('/getallusers', Controller_1.getAllUsers);
 router.get('/:username', Controller_1.getUserWithUsername);
 router.post('/createuser', Controller_1.createUser);

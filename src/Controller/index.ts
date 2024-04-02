@@ -61,7 +61,6 @@ export async function createUser(req: any, res: any, next: any) {
                 email: req.body.email || "",
                 image: req.body.image || "",
             }
-
         });
         res.status(200).json(newUser)
         next()
@@ -141,11 +140,18 @@ export async function registerUsername(req: any, res: any) {
         res.status(400)
         throw new Error('couldnt register username')
     }
-    const { body: { username } } = req
-    console.log(username, 'friendxone')
-
+    const { body: { username } } = req;
     const updateUserWithUsername = await userModel.findOneAndUpdate({ id }, { $set: { 'user.username': username } })
     res.send(updateUserWithUsername)
+}
+
+
+export async function checkIfUserExists(req: any, res: any) {
+    const email = req.params.email
+    const findMail = await userModel.findOne({ 'user.email': email })
+    if (findMail) {
+        res.send({ message: 'user exists' })
+    }
 }
 
 export async function updateUserProfile(req: any, res: any) {
